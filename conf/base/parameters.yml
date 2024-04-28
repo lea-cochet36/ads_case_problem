@@ -1,0 +1,4 @@
+# parameters ARIMA
+stationary: False
+test: "adf"
+sp: 12

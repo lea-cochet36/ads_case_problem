@@ -1,0 +1,12 @@
+name: ads_env
+dependencies:
+  - python=3.8
+  - pip:
+    - kedro==0.17.7
+    - statsmodels
+    - scikit-learn
+    - sktime
+    - matplotlib
+    - pandas
+    - numpy
+    - pmdarima

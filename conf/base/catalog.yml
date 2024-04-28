@@ -1,0 +1,28 @@
+train:
+  type: pandas.CSVDataSet
+  filepath: data/01_raw/train.csv
+
+train_preprocessed:
+  type: kedro.extras.datasets.pickle.PickleDataSet
+  filepath: data/02_intermediate/train_preprocessed.pkl
+
+test: 
+  type: pandas.CSVDataSet
+  filepath: data/01_raw/test.csv
+
+test_preprocessed: 
+  type: kedro.extras.datasets.pickle.PickleDataSet
+  filepath: data/02_intermediate/test_preprocessed.pkl
+
+model_trained:
+  type: kedro.extras.datasets.pickle.PickleDataSet
+  filepath: data/06_models/model_trained.pkl
+
+test_pred: 
+  type: kedro.extras.datasets.pickle.PickleDataSet
+  filepath: data/07_model_output/test_pred.pkl
+
+dict_metrics_test:
+  type: kedro.extras.datasets.json.JSONDataSet
+  filepath: data/08_reporting/dict_metrics_test.csv
+
