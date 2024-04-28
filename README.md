@@ -28,7 +28,7 @@ The data paths are stored in the Data catalog located in the file : `conf/base/c
 
 The project parameters are located in the file : `conf/base/parameters.yml`
 
-## Choix du modèle et analyse des données
+## Model selection and data analysis
 
 The model selection and data analysis are located in the file : `analysis.ipynb`
 
