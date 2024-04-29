@@ -5,7 +5,6 @@ import numpy as np
 def preprocess_data(data) :
     data = data.rename(columns={"Unnamed: 0": "date"})
     data['date'] = pd.to_datetime(data['date'], format='%d.%m.%y')
-    data = data[data.notna()]
     data.set_index('date', inplace=True)
     data.index = data.index.to_period('M')
     data = data.dropna()
@@ -13,7 +12,6 @@ def preprocess_data(data) :
 
 def train_model_arima(data, stationary, test, sp) : 
     model_arima = AutoARIMA(stationary=stationary,test=test,sp = sp, trace=True,suppress_warnings=True)
-    print(len(data))
     fitted_model_arima = model_arima.fit(data["y"]) 
     return fitted_model_arima
 
