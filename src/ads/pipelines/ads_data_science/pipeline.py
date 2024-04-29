@@ -1,6 +1,6 @@
 from kedro.pipeline import node, pipeline
 
-from .nodes import preprocess_data, train_model_arima, predict_model, postprocess_data, evaluate_performance
+from .nodes import preprocess_data, train_model_arima, predict_model, postprocess_data
 
 def create_preprocessing_pipeline():
     return pipeline(
@@ -30,7 +30,7 @@ def create_inference_pipeline():
         [
             node(
                 predict_model,
-                dict(model="model_trained",data="test"),
+                dict(model="model_trained",horizon="params:horizon"),
                 outputs = "y_pred"
             ),
         ]
@@ -42,18 +42,7 @@ def create_postprocessing_pipeline():
             node(
                 postprocess_data,
                 dict(y_pred="y_pred"),
-                outputs = "test_pred"
-            )
-        ]
-    )
-
-def create_evaluation_pipeline():
-    return pipeline(
-        [
-            node(
-                evaluate_performance,
-                dict(data_true= "test_preprocessed", data_pred="test_pred"),
-                "dict_metrics_test",
+                outputs = "test"
             )
         ]
     )

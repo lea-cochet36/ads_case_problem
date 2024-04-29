@@ -2,3 +2,6 @@
 stationary: False
 test: "adf"
 sp: 12
+
+# prediction
+horizon: 12

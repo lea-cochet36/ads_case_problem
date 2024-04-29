@@ -1,7 +1,7 @@
 import pandas as pd
 from statsmodels.tsa.stattools import adfuller
 import pandas as pd
-from statsmodels.tsa.seasonal import seasonal_decompose
+from sktime.performance_metrics.forecasting import mean_absolute_error, mean_squared_error, mean_absolute_percentage_error
 import matplotlib.pyplot as plt
 
 def test_stationarity(x, window):
@@ -44,30 +44,26 @@ def test_stationarity(x, window):
     for key, value in result[4].items():
         print('\t%s: %.3f' % (key, value))
         
-def plot_seasonality_decomposition(x,model,period) :
-    x_temp = x.copy()
-    x_temp.index = x_temp.index.to_timestamp()
-    decomposition = seasonal_decompose(x_temp, period=period,model = model)
-    #  = x.copy()
-    trend = decomposition.trend
-    seasonal = decomposition.seasonal
-    residual = decomposition.resid
-    plt.figure(figsize=(15,7))
-    plt.subplot(411)
-    plt.plot(x_temp,label="Original")
-    plt.legend(loc="best")
-    plt.subplot(412)
-    plt.plot(trend,label="Trend")
-    plt.legend(loc="best")
-    plt.subplot(413)
-    plt.plot(trend,label="Seasonality")
-    plt.legend(loc="best")
-    plt.subplot(414)
-    plt.plot(trend,label="Residuals")
-    plt.legend(loc="best")
+
     
 def split_train_test(data, split_ratio = 0.2) :
     
     data_train = data[:int(len(data)*(1-split_ratio))]
     data_test = data[int(len(data)*(1-split_ratio)):]
     return data_train, data_test
+
+def evaluate_performance(data_true,data_pred) :
+    y_true = data_true["y"]
+    y_pred = data_pred["y"]
+    mse = round(mean_squared_error(y_true,y_pred),3)
+    mae = round(mean_absolute_error(y_true,y_pred),3)
+    rmse = round(mean_squared_error(y_true, y_pred, square_root=True),3)
+    mape = round(mean_absolute_percentage_error(y_true,y_pred),3)
+    dict_metrics = {"mse" : mse, "mae" : mae, "rmse" : rmse, "mape" : mape}
+    return dict_metrics
+
+def postprocess_pred(y_pred):
+    data_pred = pd.DataFrame()
+    data_pred["y"] = y_pred
+    data_pred.index.name = "date"
+    return data_pred
